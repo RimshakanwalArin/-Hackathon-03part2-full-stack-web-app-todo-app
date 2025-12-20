@@ -2,13 +2,5 @@
   "version": 2,
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "framework": "nextjs",
-  "env": {
-    "NEXT_PUBLIC_API_URL": {
-      "description": "API URL for backend",
-      "default": "http://localhost:8000"
-    }
-  },
-  "envPrefix": "NEXT_PUBLIC_",
-  "public": true
+  "framework": "nextjs"
 }
