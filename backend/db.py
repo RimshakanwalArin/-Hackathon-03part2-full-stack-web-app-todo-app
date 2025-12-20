@@ -47,18 +47,36 @@ SessionLocal = sessionmaker(
 
 def get_session():
     """Dependency for getting database session"""
-    with SessionLocal() as session:
-        yield session
+    print("[DEBUG] db:get_session >> Creating new database session")
+    try:
+        with SessionLocal() as session:
+            print("[DEBUG] db:get_session >> Database session opened successfully")
+            yield session
+            print("[DEBUG] db:get_session >> Database session closed successfully")
+    except Exception as e:
+        print(f"[ERROR] db:get_session >> {type(e).__name__}: {str(e)}")
+        raise
 
 
 async def create_db_and_tables():
     """Create database tables (called on startup)"""
-    from models import SQLModel
-    SQLModel.metadata.create_all(engine)
-    print("Database tables created/verified")
+    print("[DEBUG] db:create_db_and_tables >> Starting database initialization")
+    try:
+        from models import SQLModel
+        print(f"[DEBUG] db:create_db_and_tables >> Database URL: {DATABASE_URL.split('://')[0]}://*** | engine_type={'sqlite' if DATABASE_URL.startswith('sqlite') else 'postgresql'}")
+        SQLModel.metadata.create_all(engine)
+        print("[DEBUG] db:create_db_and_tables >> All database tables created/verified successfully")
+    except Exception as e:
+        print(f"[ERROR] db:create_db_and_tables >> {type(e).__name__}: {str(e)}")
+        raise
 
 
 async def close_db():
     """Close database connections (called on shutdown)"""
-    engine.dispose()
-    print("Database connections closed")
+    print("[DEBUG] db:close_db >> Closing database connections")
+    try:
+        engine.dispose()
+        print("[DEBUG] db:close_db >> Database connections closed successfully")
+    except Exception as e:
+        print(f"[ERROR] db:close_db >> {type(e).__name__}: {str(e)}")
+        raise

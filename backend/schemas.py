@@ -123,7 +123,7 @@ class ErrorResponse(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        schema_extra = {
+        json_schema_extra  = {
             "example": {
                 "success": False,
                 "error": {
@@ -142,10 +142,12 @@ class SuccessResponse(BaseModel):
     timestamp: datetime = Field(default_factory=datetime.utcnow)
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "success": True,
                 "data": {"task_id": 1},
                 "timestamp": "2025-12-08T10:30:00Z"
             }
         }
+
+print("[DEBUG] schemas.py >> Updated schema_extra to json_schema_extra for SuccessResponse")

@@ -37,27 +37,46 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     """Create database tables on startup"""
-    await create_db_and_tables()
+    print("[DEBUG] main:startup_event >> Application startup initiated")
+    try:
+        await create_db_and_tables()
+        print("[DEBUG] main:startup_event >> Database tables created/verified successfully")
+    except Exception as e:
+        print(f"[ERROR] main:startup_event >> {type(e).__name__}: {str(e)}")
 
 # Health check endpoint
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return JSONResponse(
-        status_code=200,
-        content={"status": "healthy", "message": "Todo App API is running"}
-    )
+    print("[DEBUG] main:health_check >> GET /health endpoint called")
+    try:
+        response = {"status": "healthy", "message": "Todo App API is running"}
+        print("[DEBUG] main:health_check >> Health check passed | status=healthy")
+        return JSONResponse(
+            status_code=200,
+            content=response
+        )
+    except Exception as e:
+        print(f"[ERROR] main:health_check >> {type(e).__name__}: {str(e)}")
+        raise
 
 # Root endpoint
 @app.get("/")
 async def root():
     """Root endpoint"""
-    return {
-        "message": "Todo App API",
-        "version": "1.0.0",
-        "docs": "/docs",
-        "openapi": "/openapi.json"
-    }
+    print("[DEBUG] main:root >> GET / endpoint called")
+    try:
+        response = {
+            "message": "Todo App API",
+            "version": "1.0.0",
+            "docs": "/docs",
+            "openapi": "/openapi.json"
+        }
+        print("[DEBUG] main:root >> Root endpoint returning API info | version=1.0.0")
+        return response
+    except Exception as e:
+        print(f"[ERROR] main:root >> {type(e).__name__}: {str(e)}")
+        raise
 
 # Import and include routes
 from routes import auth, tasks

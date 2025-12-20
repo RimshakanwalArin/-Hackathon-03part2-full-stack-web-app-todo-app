@@ -1,0 +1,27 @@
+name: Deploy to Vercel and Railway
+
+on:
+  push:
+    branches: [master, main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy Frontend to Vercel
+        uses: BernatGabor/vercel-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Deploy Backend to Railway
+        run: |
+          npm install -g @railway/cli
+          railway link ${{ secrets.RAILWAY_PROJECT_ID }}
+          railway up --service backend --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}

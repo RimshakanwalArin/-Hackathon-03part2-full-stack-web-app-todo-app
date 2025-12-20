@@ -52,7 +52,36 @@ export function AddTaskComponent({ onTaskAdded, onClose }: AddTaskComponentProps
         description: formData.description || undefined,
       });
 
+      console.log('Backend Response:', response); // Debug ke liye
+
+      // ✅ FIX: Backend se jo bhi format aaye, use handle karein
+      let taskId: number;
+      let taskData: Task;
+
       if (response.success && response.data) {
+        // Agar response.data mein task_id hai (current backend format)
+        if ('task_id' in response.data) {
+          taskId = response.data.task_id;
+          
+          // Manual task object banayein
+          taskData = {
+            id: taskId,                          // task_id ko id mein convert
+            title: formData.title,
+            description: formData.description || null,
+            completed: false,
+            user_id: '',                         // Backend se milega eventually
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          };
+        } 
+        // Agar response.data mein id hai (updated backend format)
+        else if ('id' in response.data) {
+          taskData = response.data as Task;
+        } 
+        else {
+          throw new Error('Invalid response format from backend');
+        }
+
         showNotification({
           type: 'success',
           message: `Task "${formData.title}" created successfully!`,
@@ -63,22 +92,15 @@ export function AddTaskComponent({ onTaskAdded, onClose }: AddTaskComponentProps
         setErrors({});
         setIsOpen(false);
 
-        // Call onTaskAdded callback if provided
+        // Call onTaskAdded callback with proper task data
         if (onTaskAdded) {
-          onTaskAdded({
-            id: response.data.task_id,
-            title: formData.title,
-            description: formData.description || null,
-            completed: false,
-            user_id: '',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          });
+          onTaskAdded(taskData);
         }
       } else {
         throw new Error(response.error?.message || 'Failed to create task');
       }
     } catch (error) {
+      console.error('Error creating task:', error);
       showNotification({
         type: 'error',
         message: error instanceof Error ? error.message : 'Failed to create task',
@@ -303,3 +325,8 @@ export function AddTaskComponent({ onTaskAdded, onClose }: AddTaskComponentProps
     </>
   );
 }
+
+
+
+
+
