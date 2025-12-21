@@ -8,7 +8,27 @@ html {
 }
 
 body {
-  @apply bg-light text-dark;
+  @apply bg-gradient-to-br from-slate-950 via-purple-900 to-slate-950 text-white;
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00d4ff 0%, #6b5eff 100%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #00f5ff 0%, #8b7aff 100%);
 }
 
 /* Typography */
@@ -28,40 +48,55 @@ h3 {
   @apply text-2xl;
 }
 
+/* Gradient Text */
+.gradient-text {
+  @apply bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent;
+}
+
 /* Forms */
 input, textarea, select {
-  @apply rounded-md border border-gray-300 px-4 py-2 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50;
+  @apply rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white placeholder-gray-500 focus:border-cyan-500 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition-all;
 }
 
 /* Buttons */
 button {
-  @apply rounded-md font-medium transition-colors duration-200;
+  @apply rounded-xl font-medium transition-all duration-200;
 }
 
 .btn-primary {
-  @apply bg-primary text-white hover:bg-blue-700;
+  @apply bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/50;
 }
 
 .btn-secondary {
-  @apply bg-secondary text-white hover:bg-gray-700;
+  @apply border border-white/20 text-gray-300 hover:bg-white/10;
 }
 
 .btn-danger {
-  @apply bg-danger text-white hover:bg-red-700;
+  @apply bg-red-500/20 text-red-300 border border-red-500/30 hover:bg-red-500/30;
 }
 
 .btn-success {
-  @apply bg-success text-white hover:bg-green-700;
+  @apply bg-green-500/20 text-green-300 border border-green-500/30 hover:bg-green-500/30;
 }
 
 /* Cards */
 .card {
-  @apply rounded-lg border border-gray-200 bg-white p-6 shadow-sm;
+  @apply rounded-2xl border border-white/20 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-3xl p-6 shadow-glass;
+}
+
+/* Glassmorphism Base */
+.glass {
+  @apply bg-white/10 backdrop-blur-3xl border border-white/20 rounded-2xl;
 }
 
 /* Loading indicator */
 .loading {
   @apply animate-pulse;
+}
+
+/* Smooth Transitions */
+* {
+  @apply transition-colors duration-200;
 }
 
 /* Animations */
@@ -78,4 +113,16 @@ button {
 
 .animate-slide-in {
   animation: slideIn 0.3s ease-out;
+}
+
+/* Utility Classes */
+.backdrop-blur-3xl {
+  backdrop-filter: blur(24px);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #00d4ff 0%, #6b5eff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
