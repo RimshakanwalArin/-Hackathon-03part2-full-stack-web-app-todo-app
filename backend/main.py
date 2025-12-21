@@ -22,8 +22,25 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# # Configure CORS
+# allowed_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:3001,http://localhost:8000").split(",")
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=allowed_origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
 # Configure CORS
-allowed_origins = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:3001,http://localhost:8000").split(",")
+allowed_origins = [
+    "https://frontend-jflp29lb-rimshakanwalarins-projects.vercel.app",
+    "https://frontend-flax-two-72.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "*"
+]
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,7 +49,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # Startup event to create database tables
 @app.on_event("startup")
 async def startup_event():
