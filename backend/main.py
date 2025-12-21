@@ -33,22 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configure CORS
-allowed_origins = [
-    "https://frontend-jflp29lb-rimshakanwalarins-projects.vercel.app",
-    "https://frontend-flax-two-72.vercel.app",
-    "http://localhost:3000",
-    "http://localhost:3001",
-    "*"
-]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=allowed_origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 # Startup event to create database tables
 @app.on_event("startup")
 async def startup_event():
