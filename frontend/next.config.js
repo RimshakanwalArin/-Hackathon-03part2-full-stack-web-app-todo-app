@@ -48,9 +48,6 @@ const nextConfig = {
     ];
   },
 
-  // Turbopack configuration (Next.js 16+ uses Turbopack by default)
-  turbopack: {},
-
   // Webpack configuration
   webpack: (config, { isServer }) => {
     return config;
